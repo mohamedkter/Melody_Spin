@@ -36,9 +36,9 @@ return format.format(num);
                   fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(12)),
           width: 160,
-          height: 150,
+          height: 160,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 70),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 60),
             child: Column(
               children: [
                 Row(
@@ -50,18 +50,15 @@ return format.format(num);
                       decoration: BoxDecoration(
                           color: Colors.grey.shade800,
                           borderRadius: BorderRadius.circular(12)),
-                      child: Icon(Icons.play_circle, color: L_mainColor),
+                      child: Icon(Icons.play_circle, color: IconColor),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 3,),
                 SizedBox(
                   height: 50,
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 0.36,
-                    height: 150,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
                         borderRadius: BorderRadius.circular(10)),

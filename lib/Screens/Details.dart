@@ -70,12 +70,13 @@ class _DetailsState extends State<Details> {
                         child: SizedBox(
                           height: 200,
                           child: ListView.builder(
-                              itemCount:19,
+                              itemCount:movies?.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) =>
                                   MovieCard(Movie:movies?[index])),
                         ),
-                      )
+                      ),
+                      SizedBox(height: 20,)
                 ],
               ),
             ),

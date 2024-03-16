@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:melody_spin/Constants/Constants_Color.dart';
 
-class PlayListCard extends StatelessWidget {
-  const PlayListCard({
+class FavoriteCard extends StatelessWidget {
+  const FavoriteCard({
     super.key,
   });
 
@@ -26,10 +27,10 @@ class PlayListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Hip-Hop405 Mix",style: TextStyle(fontFamily:"raleway",fontSize: 17,color: Colors.white,fontWeight: FontWeight.w700 )),
-                Text("3 Songs",style: TextStyle(fontFamily:"raleway",fontSize: 15,fontWeight: FontWeight.w700 )),
+                Text("Action",style: TextStyle(fontFamily:"raleway",fontSize: 15,fontWeight: FontWeight.w700,color: Colors.grey )),
               ],
             ),
-            Icon(Icons.play_circle)
+            Icon(Icons.play_circle,color: IconColor,)
           ],
         ),
       ),

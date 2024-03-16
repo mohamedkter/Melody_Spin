@@ -37,14 +37,14 @@ class MovieTrailerWidget extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_back_rounded,
-                        color: D_mainColor,
+                        color: IconColor,
                         size: 30,
                       )),
                   IconButton(
                     onPressed: () {},
                     icon: Icon(
                       Icons.favorite_border,
-                      color: D_mainColor,
+                      color: IconColor,
                       size: 30,
                     ),
                   )
@@ -75,7 +75,7 @@ class MovieTrailerWidget extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 5, right: 5),
                           child: Icon(
-                            color: L_mainColor,
+                            color: IconColor,
                             Icons.play_circle,
                             size: 40,
                           ),

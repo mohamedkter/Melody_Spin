@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:melody_spin/Models/CastModel.dart';
+import 'package:melody_spin/Models/DetailsCast.dart';
 import 'package:melody_spin/Models/DetailsMovieModel.dart';
 import 'package:melody_spin/Models/MovieModel.dart';
 
@@ -16,7 +17,8 @@ class MoviesService {
   DetailsMovie? MovieDetailes;
   late List<MovieModel> Movies = [];
   late List<Cast_Item> cast_items = [];
-  Future<dynamic> FetchApi(String url,String DataName) async {
+  DetailsCast? detailsCast;
+  Future<dynamic> FetchApi(String url, String DataName) async {
     try {
       final response =
           await dio.get('https://api.themoviedb.org/3/$url', options: options);
@@ -29,8 +31,7 @@ class MoviesService {
             Movie["popularity"],
             Movie["video"],
             Movie["release_date"],
-            Movie["vote_average"]
-            ));
+            Movie["vote_average"]));
       }
       ;
       return Movies;
@@ -72,6 +73,26 @@ class MoviesService {
           title: response.data["title"],
           vote_average: response.data["vote_average"]);
       return MovieDetailes;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> FetchCastDetailsApi(String id) async {
+    try {
+      final response = await dio.get(
+          'https://api.themoviedb.org/3/person/$id?language=en-US',
+          options: options);
+
+      detailsCast = DetailsCast(
+          name: response.data["name"],
+          birthday: response.data["birthday"],
+          place_of_birth: response.data["place_of_birth"],
+          profile_path: response.data["profile_path"],
+          known_for_department: response.data["known_for_department"],
+          biography: response.data["biography"]);
+
+      return detailsCast;
     } catch (e) {
       print(e);
     }
