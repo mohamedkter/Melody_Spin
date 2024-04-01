@@ -175,7 +175,9 @@ class _MainScreenState extends State<MainScreen> {
                                 itemBuilder: (context, index) =>
                                     MovieCard(Movie: upcoming_movies?[index])),
                           ),
-                        )
+                        ),
+                  SizedBox(height: 20,),
+
                       ],
                     ),
                   ),

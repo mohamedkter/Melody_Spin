@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
 
-class MovieTrailerWidget extends StatelessWidget {
+class MovieTrailerWidget extends StatefulWidget {
   final String MovieName;
   final String original_language;
   final String Movie_Poster;
@@ -13,14 +13,21 @@ class MovieTrailerWidget extends StatelessWidget {
   });
 
   @override
+  State<MovieTrailerWidget> createState() => _MovieTrailerWidgetState();
+}
+
+class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
+  bool is_Favorite = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 600,
       decoration: BoxDecoration(
           image: DecorationImage(
-              image:
-                  NetworkImage("https://image.tmdb.org/t/p/w500$Movie_Poster"),
+              image: NetworkImage(
+                  "https://image.tmdb.org/t/p/w500${widget.Movie_Poster}"),
               fit: BoxFit.cover)),
       child: Padding(
         padding: const EdgeInsets.only(top: 40),
@@ -41,9 +48,13 @@ class MovieTrailerWidget extends StatelessWidget {
                         size: 30,
                       )),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        is_Favorite = !is_Favorite;
+                      });
+                    },
                     icon: Icon(
-                      Icons.favorite_border,
+                     is_Favorite==false?Icons.favorite_border:Icons.favorite_rounded,
                       color: IconColor,
                       size: 30,
                     ),
@@ -105,7 +116,7 @@ class MovieTrailerWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "$MovieName",
+                    "${widget.MovieName}",
                     style: TextStyle(
                         fontFamily: "raleway",
                         fontSize: 27,
@@ -116,7 +127,7 @@ class MovieTrailerWidget extends StatelessWidget {
                     height: 3,
                   ),
                   Text(
-                    "${original_language}  |  Action,secFi  |  3h10m",
+                    "${widget.original_language}  |  Action,secFi  |  3h10m",
                     style: TextStyle(
                         fontFamily: "raleway",
                         color: Colors.grey.shade500,
