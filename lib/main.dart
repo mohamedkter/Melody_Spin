@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
-import 'package:melody_spin/Models/MovieModel.dart';
 import 'package:melody_spin/Screens/Categories.dart';
 import 'package:melody_spin/Screens/Favorites.dart';
 import 'package:melody_spin/Screens/MainScreen.dart';
