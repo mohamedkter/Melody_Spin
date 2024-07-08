@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
+import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteCubit.dart';
+import 'package:melody_spin/Database/database.dart';
 import 'package:melody_spin/Models/DetailsMovieModel.dart';
+import 'package:melody_spin/Models/MovieModel.dart';
 import 'package:readmore/readmore.dart';
 
 class FavoriteCard extends StatelessWidget {
-  final DetailsMovie? Movie;
+  final MovieModel? Movie;
   const FavoriteCard({
     super.key, this.Movie,
   });
@@ -34,11 +38,16 @@ class FavoriteCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ReadMoreText("${Movie?.title}",trimLength: 50,trimMode: TrimMode.Length,style: TextStyle(fontFamily:"raleway",fontSize: 17,color: Colors.white,fontWeight: FontWeight.w700 )),
-                Text("Action",style: TextStyle(fontFamily:"raleway",fontSize: 15,fontWeight: FontWeight.w700,color: Colors.grey )),
+               Container(
+                width: 150,
+                child: Text("${Movie?.title}",overflow: TextOverflow.ellipsis,style: TextStyle(fontFamily:"raleway",fontSize: 17,color: Colors.white,fontWeight: FontWeight.w700 ))),
+                const Text("Action",style: TextStyle(fontFamily:"raleway",fontSize: 15,fontWeight: FontWeight.w700,color: Colors.grey )),
               ],
             ),
-            Icon(Icons.play_circle,color: IconColor,)
+            IconButton(onPressed: (){
+              MyDatabase.deleteMovie(Movie!.id);
+              BlocProvider.of<FavoriteCubit>(context).getAllFavoriteMovies();
+            }, icon:Icon(Icons.delete_forever_rounded,color: IconColor,size: 30,))
           ],
         ),
       ),

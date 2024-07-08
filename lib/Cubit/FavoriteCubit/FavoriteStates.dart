@@ -1,4 +1,4 @@
 abstract class FavoriteStates{}
 class EmptyFavorites extends FavoriteStates{}
-class AddMovieToFavorites extends FavoriteStates{}
-class RemoveMovieFromFavorites extends FavoriteStates{}
+class FavoriteLoadingState extends FavoriteStates{}
+class FavoritesSuccessState extends FavoriteStates{}

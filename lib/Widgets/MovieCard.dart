@@ -25,7 +25,7 @@ return format.format(num);
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Details(
-                    MovieId: "${Movie?.id}",
+                    Movie: Movie!,
                   )));
         },
         child: Container(

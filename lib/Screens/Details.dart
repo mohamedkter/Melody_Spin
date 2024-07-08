@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteCubit.dart';
 import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteStates.dart';
+import 'package:melody_spin/Database/database.dart';
 import 'package:melody_spin/Models/CastModel.dart';
 import 'package:melody_spin/Models/DetailsMovieModel.dart';
 import 'package:melody_spin/Models/MovieModel.dart';
@@ -15,8 +16,8 @@ import 'package:melody_spin/Widgets/MovieTrailerWidget.dart';
 import 'package:melody_spin/Widgets/StorylineWidget.dart';
 
 class Details extends StatefulWidget {
-  final String MovieId;
-  const Details({super.key, required this.MovieId});
+  final MovieModel Movie;
+  const Details({super.key, required this.Movie});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -26,7 +27,7 @@ class _DetailsState extends State<Details> {
   DetailsMovie? MovieDetailes;
   List<MovieModel>? movies;
   List<Cast_Item> cast_items = [];
-  late bool is_Favorite ;
+ // late bool is_Favorite ;
   bool loading = true;
   @override
   void initState() {
@@ -35,10 +36,10 @@ class _DetailsState extends State<Details> {
   }
 
   Future<void> _getMovieDetails() async {
-    MovieDetailes = await MoviesService().FetchDetailsApi("${widget.MovieId}");
-    cast_items = await MoviesService().FetchCastApi("${widget.MovieId}");
+    MovieDetailes = await MoviesService().FetchDetailsApi("${widget.Movie.id}");
+    cast_items = await MoviesService().FetchCastApi("${widget.Movie.id}");
     movies = await MoviesService().FetchApi(
-        "movie/${widget.MovieId}/recommendations?language=en-US&page=1",
+        "movie/${widget.Movie.id}/recommendations?language=en-US&page=1",
         "results");
     setState(() {
       loading = false;
@@ -51,21 +52,17 @@ class _DetailsState extends State<Details> {
       backgroundColor: Colors.black,
       body: loading == true
           ? const CustomCircularProgress()
-          :BlocBuilder<FavoriteCubit,FavoriteStates>(builder:(context, state) {
-                    is_Favorite=BlocProvider.of<FavoriteCubit>(context).findMovie(MovieDetailes);
-                    print(is_Favorite);
-                    return
-                      SingleChildScrollView(
+          : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MovieTrailerWidget(
-                    is_Favorite: is_Favorite,
+                    is_Favorite: true,//is_Favorite,
                     IconButtonFunction: () {
                       setState(() {
-                        is_Favorite = !is_Favorite;
+                        //is_Favorite = !is_Favorite;
                       });
-                       BlocProvider.of<FavoriteCubit>(context).addMovie(MovieDetailes);
+                       MyDatabase.insertMovie(widget.Movie);
 
                     },
                     MovieName: MovieDetailes!.title,
@@ -105,9 +102,7 @@ class _DetailsState extends State<Details> {
                   )
                 ],
               ),
-            );  
-                  }),
-                 
+            )
           
           
           

@@ -54,18 +54,24 @@ class CastWidget extends StatelessWidget {
                             children: [
                               Text(
                                 "${cast_items[index].department}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,
                                     fontFamily: "raleway"),
                               ),
-                              Text(
-                                "${cast_items[index].name}",
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontFamily: "raleway"),
+                              Container(
+                                width: 170,
+                                child: Text(
+                                  "${cast_items[index].name}",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontFamily: "raleway"
+                                      
+                                      ),
+                                ),
                               )
                             ],
                           )
