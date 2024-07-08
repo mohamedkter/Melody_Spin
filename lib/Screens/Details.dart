@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteCubit.dart';
+import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteStates.dart';
 import 'package:melody_spin/Models/CastModel.dart';
 import 'package:melody_spin/Models/DetailsMovieModel.dart';
 import 'package:melody_spin/Models/MovieModel.dart';
@@ -21,8 +24,9 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   DetailsMovie? MovieDetailes;
-  List<MovieModel> ?movies;
-  List<Cast_Item> cast_items=[];
+  List<MovieModel>? movies;
+  List<Cast_Item> cast_items = [];
+  late bool is_Favorite ;
   bool loading = true;
   @override
   void initState() {
@@ -32,8 +36,10 @@ class _DetailsState extends State<Details> {
 
   Future<void> _getMovieDetails() async {
     MovieDetailes = await MoviesService().FetchDetailsApi("${widget.MovieId}");
-    cast_items=await MoviesService().FetchCastApi("${widget.MovieId}");
-    movies = await MoviesService().FetchApi("movie/${widget.MovieId}/recommendations?language=en-US&page=1","results");
+    cast_items = await MoviesService().FetchCastApi("${widget.MovieId}");
+    movies = await MoviesService().FetchApi(
+        "movie/${widget.MovieId}/recommendations?language=en-US&page=1",
+        "results");
     setState(() {
       loading = false;
     });
@@ -44,12 +50,28 @@ class _DetailsState extends State<Details> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: loading == true
-          ?const CustomCircularProgress()
-          : SingleChildScrollView(
+          ? const CustomCircularProgress()
+          :BlocBuilder<FavoriteCubit,FavoriteStates>(builder:(context, state) {
+                    is_Favorite=BlocProvider.of<FavoriteCubit>(context).findMovie(MovieDetailes);
+                    print(is_Favorite);
+                    return
+                      SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MovieTrailerWidget(MovieName: MovieDetailes!.title,Movie_Poster: MovieDetailes!.poster_path,original_language: MovieDetailes!.original_language,),
+                  MovieTrailerWidget(
+                    is_Favorite: is_Favorite,
+                    IconButtonFunction: () {
+                      setState(() {
+                        is_Favorite = !is_Favorite;
+                      });
+                       BlocProvider.of<FavoriteCubit>(context).addMovie(MovieDetailes);
+
+                    },
+                    MovieName: MovieDetailes!.title,
+                    Movie_Poster: MovieDetailes!.backdrop_path,
+                    original_language: MovieDetailes!.original_language,
+                  ),
                   StorylineWidget(
                     StorylineText: MovieDetailes == null
                         ? "overview"
@@ -58,7 +80,9 @@ class _DetailsState extends State<Details> {
                   const SizedBox(
                     height: 15,
                   ),
-                  CastWidget(cast_items:cast_items,),
+                  CastWidget(
+                    cast_items: cast_items,
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                     child: CustomHeaderWithoutAction(
@@ -66,20 +90,27 @@ class _DetailsState extends State<Details> {
                     ),
                   ),
                   Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: SizedBox(
-                          height: 200,
-                          child: ListView.builder(
-                              itemCount:movies?.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) =>
-                                  MovieCard(Movie:movies?[index])),
-                        ),
-                      ),
-                      SizedBox(height: 20,)
+                    padding: const EdgeInsets.only(top: 15),
+                    child: SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                          itemCount: movies?.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
+                              MovieCard(Movie: movies?[index])),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
-            ),
+            );  
+                  }),
+                 
+          
+          
+          
     );
   }
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
+import 'package:melody_spin/Models/DetailsMovieModel.dart';
+import 'package:readmore/readmore.dart';
 
 class FavoriteCard extends StatelessWidget {
+  final DetailsMovie? Movie;
   const FavoriteCard({
-    super.key,
+    super.key, this.Movie,
   });
 
   @override
@@ -18,15 +22,19 @@ class FavoriteCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset(
-              "assets/images/human4.jpg",
-              width: 80,
-              height: 80,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                "https://image.tmdb.org/t/p/w500${Movie?.poster_path}",
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hip-Hop405 Mix",style: TextStyle(fontFamily:"raleway",fontSize: 17,color: Colors.white,fontWeight: FontWeight.w700 )),
+                ReadMoreText("${Movie?.title}",trimLength: 50,trimMode: TrimMode.Length,style: TextStyle(fontFamily:"raleway",fontSize: 17,color: Colors.white,fontWeight: FontWeight.w700 )),
                 Text("Action",style: TextStyle(fontFamily:"raleway",fontSize: 15,fontWeight: FontWeight.w700,color: Colors.grey )),
               ],
             ),

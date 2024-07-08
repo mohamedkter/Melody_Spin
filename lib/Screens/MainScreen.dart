@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
 import 'package:melody_spin/Models/MovieModel.dart';
+import 'package:melody_spin/Screens/LoadingScreens/HomePageLoading.dart';
 import 'package:melody_spin/Services/MoviesService.dart';
 import 'package:melody_spin/Widgets/CustomCircularProgress.dart';
 import 'package:melody_spin/Widgets/CustomHeader.dart';
@@ -42,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return loading == true
-        ? const CustomCircularProgress()
+        ? const HomePageLoading()
         : Container(
             height: double.infinity,
             decoration: BoxDecoration(

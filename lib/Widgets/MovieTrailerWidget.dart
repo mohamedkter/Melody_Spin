@@ -5,11 +5,14 @@ class MovieTrailerWidget extends StatefulWidget {
   final String MovieName;
   final String original_language;
   final String Movie_Poster;
-  const MovieTrailerWidget({
+  final bool is_Favorite ;
+   final VoidCallback IconButtonFunction;
+   const MovieTrailerWidget({
     super.key,
+    required this.is_Favorite,
     required this.MovieName,
     required this.original_language,
-    required this.Movie_Poster,
+    required this.Movie_Poster, required this.IconButtonFunction,
   });
 
   @override
@@ -17,7 +20,6 @@ class MovieTrailerWidget extends StatefulWidget {
 }
 
 class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
-  bool is_Favorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +50,9 @@ class _MovieTrailerWidgetState extends State<MovieTrailerWidget> {
                         size: 30,
                       )),
                   IconButton(
-                    onPressed: () {
-                      setState(() {
-                        is_Favorite = !is_Favorite;
-                      });
-                    },
+                    onPressed: widget.IconButtonFunction,
                     icon: Icon(
-                     is_Favorite==false?Icons.favorite_border:Icons.favorite_rounded,
+                    widget.is_Favorite==false?Icons.favorite_border:Icons.favorite_rounded,
                       color: IconColor,
                       size: 30,
                     ),

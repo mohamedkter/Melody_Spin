@@ -20,8 +20,7 @@ class MoviesService {
   DetailsCast? detailsCast;
   Future<dynamic> FetchApi(String url, String DataName) async {
     try {
-      final response =
-          await dio.get('https://api.themoviedb.org/3/$url', options: options);
+      final response =await dio.get('https://api.themoviedb.org/3/$url', options: options);
       for (var Movie in response.data["$DataName"]) {
         Movies.add(MovieModel(
             Movie["id"],

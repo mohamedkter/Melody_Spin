@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:melody_spin/Constants/Constants_Color.dart';
+import 'package:melody_spin/Cubit/FavoriteCubit/FavoriteCubit.dart';
 import 'package:melody_spin/Screens/Categories.dart';
 import 'package:melody_spin/Screens/Favorites.dart';
 import 'package:melody_spin/Screens/MainScreen.dart';
 import 'package:melody_spin/Screens/Profiles.dart';
+import 'package:melody_spin/Screens/LoadingScreens/HomePageLoading.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => FavoriteCubit(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -17,7 +25,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Widget> pages = [const MainScreen(), const Favorites(), const Categories(), const Profiles()];
+  List<Widget> pages = [
+    const MainScreen(),
+    const Favorites(),
+    const Categories(),
+    const Profiles()
+  ];
   // ignore: non_constant_identifier_names
   int _CurrentIndex = 0;
 
@@ -31,7 +44,8 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey.shade800),
         useMaterial3: true,
       ),
-      home: Scaffold(
+      home: 
+      Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
